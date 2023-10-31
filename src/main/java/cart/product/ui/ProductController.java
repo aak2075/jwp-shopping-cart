@@ -4,10 +4,7 @@ import cart.product.application.ProductService;
 import cart.product.ui.dto.ProductRequest;
 import cart.product.ui.dto.ProductResponse;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.net.URI;
 import java.util.List;
@@ -32,8 +29,20 @@ public class ProductController {
     }
 
     @PostMapping("/api/products")
-    public ResponseEntity<Void> createProduct(final ProductRequest productRequest) {
+    public ResponseEntity<Void> createProduct(@RequestBody final ProductRequest productRequest) {
         final var createdId = productService.create(productRequest);
         return ResponseEntity.created(URI.create("/api/products/" + createdId)).build();
+    }
+
+    @PutMapping("/api/products/{productId}")
+    public ResponseEntity<Void> updateProduct(@PathVariable final Long productId, @RequestBody final ProductRequest productRequest) {
+        final var updatedId = productService.update(productId, productRequest);
+        return ResponseEntity.created(URI.create("/api/products/" + updatedId)).build();
+    }
+
+    @DeleteMapping("/api/products/{productId}")
+    public ResponseEntity<Void> deleteProduct(@PathVariable final Long productId) {
+        productService.delete(productId);
+        return ResponseEntity.ok().build();
     }
 }

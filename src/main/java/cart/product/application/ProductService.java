@@ -32,8 +32,22 @@ public class ProductService {
                 .collect(Collectors.toList());
     }
 
+    @Transactional
     public Long create(final ProductRequest productRequest) {
         final var product = productRepository.save(productRequest.toDomain());
         return product.getId();
+    }
+
+    @Transactional
+    public Long update(final Long id, final ProductRequest productRequest) {
+        final var product = productRepository.findById(id)
+                .orElseThrow(EntityNotFoundException::new);
+        product.update(productRequest.getName(), productRequest.getImageUrl(), productRequest.getPrice());
+        return product.getId();
+    }
+
+    @Transactional
+    public void delete(final Long id) {
+        productRepository.deleteById(id);
     }
 }
