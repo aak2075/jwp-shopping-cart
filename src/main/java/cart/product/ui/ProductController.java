@@ -6,6 +6,7 @@ import cart.product.ui.dto.ProductResponse;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
 import java.net.URI;
 import java.util.List;
 
@@ -29,13 +30,13 @@ public class ProductController {
     }
 
     @PostMapping("/api/products")
-    public ResponseEntity<Void> createProduct(@RequestBody final ProductRequest productRequest) {
+    public ResponseEntity<Void> createProduct(@Valid @RequestBody final ProductRequest productRequest) {
         final var createdId = productService.create(productRequest);
         return ResponseEntity.created(URI.create("/api/products/" + createdId)).build();
     }
 
     @PutMapping("/api/products/{productId}")
-    public ResponseEntity<Void> updateProduct(@PathVariable final Long productId, @RequestBody final ProductRequest productRequest) {
+    public ResponseEntity<Void> updateProduct(@PathVariable final Long productId, @Valid @RequestBody final ProductRequest productRequest) {
         final var updatedId = productService.update(productId, productRequest);
         return ResponseEntity.created(URI.create("/api/products/" + updatedId)).build();
     }

@@ -2,13 +2,21 @@ package cart.product.ui.dto;
 
 import cart.product.domain.Product;
 
+import javax.validation.constraints.NotEmpty;
+import javax.validation.constraints.NotNull;
 import java.math.BigDecimal;
 
 public class ProductRequest {
 
     private final Long id;
+
+    @NotEmpty(message = "이름은 필수 입력값 입니다.")
     private final String name;
+
+    @NotNull(message = "가격은 필수 입력값 입니다.")
     private final BigDecimal price;
+
+    @NotEmpty(message = "사진은 필수 입력값 입니다.")
     private final String imageUrl;
 
     public ProductRequest(Long id, String name, BigDecimal price, String imageUrl) {
